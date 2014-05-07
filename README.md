@@ -1,9 +1,17 @@
-# IFlask-Notebook
+# Flasked-Notebooks
 
-Proof of concept for dynamically rendering IPython Notebooks using Flask.
+Proof of concept for dynamically rendering IPython Notebooks using Flask:
 
-Pages can be developed with the IPython Notebook server by entering the `notebooks` directory and running `ipython notebook`. Running `app.py` will start the Flask site which picks up all notebooks and dynamically renders only the markdown and output cells.
+ - Unlike `nbviewer` each code cell in a notebook is executed on request.
+ - Running `app.py` starts the flask site which renders the markdown and updated code output cells.
+ - Notebooks are rendered within the existing flask site using the normal templating approach. 
+ - Pages can be developed by starting the IPython Notebook server in the `notebooks` directory.
 
-Next step: try rendering notebooks that use Widgets.
+ 
+**Next steps:**
+
+Dynamically executing and rendering notebooks that use Widgets for interactive pages.
+
+**Contributing:**
 
 Ideas on better ways to do this, feedback and pull requests all welcome!

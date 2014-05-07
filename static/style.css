@@ -1,0 +1,16 @@
+body { 
+    margin: 0; 
+    padding: 0; 
+    border: 0; 
+}
+#body { 
+    overflow:auto; 
+}
+#sidebar { 
+    float:left; 
+    width:200px; 
+    background-color:#bbb; 
+    min-height:1024px; 
+    padding: 10; 
+    margin-right: 10;
+}

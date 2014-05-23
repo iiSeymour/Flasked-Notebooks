@@ -17,7 +17,7 @@ def before_request():
 
 @app.route("/")
 def index():
-    return render_template('index.html', notebooks=g.get('nbs'))
+    return render_template('index.html')
 
 
 @app.route("/notebook/<notebook>")
@@ -27,7 +27,7 @@ def notebook(notebook):
     except IOError:
         abort(418)
     html_notebook= convert_nb_html(notebook)
-    return render_template('notebook.html', content=html_notebook, notebooks=g.get('nbs'))
+    return render_template('notebook.html', content=html_notebook)
 
 
 if __name__ == "__main__":

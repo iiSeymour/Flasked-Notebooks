@@ -8,7 +8,7 @@
     <div id="sidebar">
       <strong>Notebooks</strong>
       <ul>
-	{% for notebook in notebooks %}
+	{% for notebook in g.nbs %}
 	<li><a href="/notebook/{{ notebook }}.ipynb">{{ notebook | title }}</a></li>
 	{% endfor %}
       </ul>

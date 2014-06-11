@@ -1,16 +1,16 @@
-body { 
-    margin: 0; 
-    padding: 0; 
-    border: 0; 
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
 }
-#body { 
-    overflow:auto; 
+#body {
+    overflow: auto;
 }
-#sidebar { 
-    float:left; 
-    width:200px; 
-    background-color:#bbb; 
-    min-height:1024px; 
-    padding: 10; 
+#sidebar {
+    float: left;
+    height: 100%;
+    width: 200px;
+    background-color: #bbb;
+    padding: 10;
     margin-right: 10;
 }

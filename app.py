@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 #! -*- coding: utf-8 -*-
 
+import os
+import forms
 from glob import glob
 from os.path import basename
-from run_ipynb import convert_nb_html
 import IPython.nbformat.current as nbf
-from flask import Flask, render_template, abort, g
+from run_ipynb import convert_nb_html, inject_params
+from flask import Flask, request, render_template, abort, g
 
 app = Flask(__name__)
+app.secret_key = os.urandom(128)
 
 
 @app.before_request
@@ -20,13 +23,31 @@ def index():
     return render_template('index.html')
 
 
+@app.route("/notebook/adder.ipynb", methods=['GET', 'POST'])
+def adder():
+    """
+    Inject input parameters to the adder notebook before rendering
+    """
+    if request.method == 'POST':
+        notebook = nbf.read(open('notebooks/adder.ipynb', 'r'), 'ipynb')
+        notebook = inject_params(request.form, notebook)
+        html_notebook = convert_nb_html(notebook)
+        return render_template('notebook.html', content=html_notebook)
+    else:
+        params = forms.AdderForm()
+        return render_template('adder.html', form=params)
+
+
 @app.route("/notebook/<notebook>")
 def notebook(notebook):
+    """
+    Dynamically render IPython Notebook
+    """
     try:
         notebook = nbf.read(open('notebooks/%s' % notebook, 'r'), 'ipynb')
     except IOError:
         abort(418)
-    html_notebook= convert_nb_html(notebook)
+    html_notebook = convert_nb_html(notebook)
     return render_template('notebook.html', content=html_notebook)
 
 

@@ -1,24 +1,18 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*0
+# -*- coding: utf-8 -*
 
 """
-Given an IPython Notebook JSON object, run all code cells, replace 
-output cell with updated output and return the HTLM representation 
+Given an IPython Notebook JSON object, run all code cells, replace
+output cell with updated output and return the HTLM representation
 
 Adapted from: https://gist.github.com/minrk/2620735
 """
 
-import re
-import os
-import sys
-import time
-import base64
 from Queue import Empty
 from BeautifulSoup import BeautifulSoup
 from IPython.config import Config
-from collections import defaultdict
 from IPython.nbconvert import HTMLExporter
-from IPython.nbformat.current import reads, NotebookNode
+from IPython.nbformat.current import NotebookNode
 try:
     from IPython.kernel import KernelManager
 except ImportError:
@@ -112,6 +106,19 @@ def run_notebook(nb):
     return nb
 
 
+def inject_params(params, nb):
+    """
+    Inject key/value pairs into a notebook
+    """
+    inject = '\n'.join(['\n%s = %s' % (k, params[k]) for k in params])
+
+    for ws in nb.worksheets:
+        for cell in ws.cells:
+            if cell.cell_type == 'code':
+                cell.input += inject
+    return nb
+
+
 def convert_nb_html(nb):
     """
     Convert a notebooks output to HTML
@@ -121,4 +128,5 @@ def convert_nb_html(nb):
     exportHtml = HTMLExporter(config=config)
     html, resources = exportHtml.from_notebook_node(nb)
     soup = BeautifulSoup(html)
-    return ''.join(map(str, soup.findAll("div", {"class": ["output", "text_cell_render border-box-sizing rendered_html"]})))
+    filters = ["output", "text_cell_render border-box-sizing rendered_html"]
+    return ''.join(map(str, soup.findAll("div", {"class": filters})))

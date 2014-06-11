@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Adder</h1>
+
+<form action='#' method="post">
+  {{ form.a.label }} {{ form.a }}<br>
+  {{ form.b.label }} {{ form.b }}<br>
+  <button type="submit">Add</button>
+</form>
+
+{% endblock %}
